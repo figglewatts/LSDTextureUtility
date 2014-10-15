@@ -1,4 +1,4 @@
-package figglewatts.tools;
+package figglewatts.tools.LSDTextureUtility;
 
 public class LSDTextureUtility {
 
