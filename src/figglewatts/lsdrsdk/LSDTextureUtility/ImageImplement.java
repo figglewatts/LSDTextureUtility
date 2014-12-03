@@ -1,4 +1,4 @@
-package figglewatts.tools.LSDTextureUtility;
+package figglewatts.lsdrsdk.LSDTextureUtility;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
