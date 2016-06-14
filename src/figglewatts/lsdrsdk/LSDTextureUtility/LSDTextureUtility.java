@@ -91,11 +91,15 @@ public class LSDTextureUtility extends JFrame {
 		final JTextField exportName = new JTextField(10);
 		this.add(exportName);
 		
+		SpinnerModel model = new SpinnerNumberModel(1, 1, 999, 1);     
+		final JSpinner spinner = new JSpinner(model);
+		this.add(spinner);
+		
 		JButton exportButton = new JButton("Export");
 		exportButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				exportImageSection(exportName.getText());
+				exportImageSection(exportName.getText(), (int)spinner.getValue());
 			}
 		});
 		this.add(exportButton);
@@ -241,6 +245,7 @@ public class LSDTextureUtility extends JFrame {
 	
 	private void fileChooser() {
 		JFileChooser openFile = new JFileChooser();
+		openFile.setCurrentDirectory(new File("D:\\Documents\\Unity Stuff\\LSD Revamped\\Experiment\\cdi\\CDI\\"));
 		openFile.setMultiSelectionEnabled(true);
 		openFile.showOpenDialog(this);
 		bmpDir = openFile.getCurrentDirectory();
@@ -272,13 +277,24 @@ public class LSDTextureUtility extends JFrame {
 		texturesLoaded = true;
 	}
 	
-	private void exportImageSection(String imageName) {
-		BufferedImage bImage = loadedTextures.get(indexOfCurrentTexture);
+	private void exportImageSection(String imageName, int numTextures) {
+		BufferedImage bImageA = loadedTextures.get(indexOfCurrentTexture);
+		exportTexturePart(bImageA, imageName, "A");
+		BufferedImage bImageB = loadedTextures.get(indexOfCurrentTexture + (numTextures * 1));
+		exportTexturePart(bImageB, imageName, "B");
+		BufferedImage bImageC = loadedTextures.get(indexOfCurrentTexture + (numTextures * 2));
+		exportTexturePart(bImageC, imageName, "C");
+		BufferedImage bImageD = loadedTextures.get(indexOfCurrentTexture + (numTextures * 3));
+		exportTexturePart(bImageD, imageName, "D");
+		System.out.println(indexOfCurrentTexture + (numTextures*3));
+	}
+	
+	private void exportTexturePart(BufferedImage bImage, String imageName, String textureSet) {
 		File theDir = new File(bmpDir.getPath() + "/processed/");
 		if (!theDir.exists()) {
 			theDir.mkdir();
 		}
-		File outputFile = new File(theDir.getPath() + "/" + imageName + ".png");
+		File outputFile = new File(theDir.getPath() + "/" + textureSet + imageName + ".png");
 		
 		int highestY = 0;
 		int highestX = 0;
